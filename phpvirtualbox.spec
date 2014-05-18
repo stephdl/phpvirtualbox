@@ -1,6 +1,6 @@
 %define name phpvirtualbox
 %define version 4.3.1
-%define release 1
+%define release 2
 %define rpmver   4.3.1
 Summary: smserver rpm to install phpvirtualbox
 Name: %{name}
@@ -14,13 +14,16 @@ BuildRoot: %{_tmppath}/%{name}-buildroot
 Prefix: %{_prefix}
 BuildArchitectures: noarch
 BuildRequires: e-smith-devtools
-Requires: e-smith-release >= 8.0
+Requires: e-smith-release >= 9.0
 AutoReqProv: no
 
 %description
 smserver rpm to install phpvirtualbox
 
 %changelog
+* Sun May 18 2014 stephane de labrusse <stephdl@de-labrusse.fr> 4.3.1-2
+-first release to sme9
+
 * Wed Jan 15 2014 stephane de labrusse <stephdl@de-labrusse.fr> 4.3.1-1
 - Update to phpvirtualbox 4.3.1, thanks to ian Moore 
 - http://sourceforge.net/projects/phpvirtualbox
