@@ -5,7 +5,7 @@
  * 
  * @author Ian Moore (imoore76 at yahoo dot com)
  * @copyright Copyright (C) 2010-2013 Ian Moore (imoore76 at yahoo dot com)
- * @version $Id: config.php 573 2013-10-17 21:19:59Z imoore76 $
+ * @version $Id: config.php 581 2014-01-02 15:11:13Z imoore76 $
  * @package phpVirtualBox
  * @see config.php-example
  * 
@@ -14,7 +14,7 @@
 /*
  * This version of phpVirtualBox
  */
-define('PHPVBOX_VER', '4.3-1');
+define('PHPVBOX_VER', '4.3-2');
 
 class phpVBoxConfigClass {
 

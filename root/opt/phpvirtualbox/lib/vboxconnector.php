@@ -5,7 +5,7 @@
  *
  * @author Ian Moore (imoore76 at yahoo dot com)
  * @copyright Copyright (C) 2010-2013 Ian Moore (imoore76 at yahoo dot com)
- * @version $Id: vboxconnector.php 575 2013-11-20 17:25:17Z imoore76 $
+ * @version $Id: vboxconnector.php 582 2014-12-11 17:47:28Z imoore76 $
  * @package phpVirtualBox
  *
  */
@@ -1809,7 +1809,16 @@ class vboxconnector {
 			
 		}
 
-		$m->OSTypeId = $args['OSTypeId'];
+		// Change OS type and update LongMode
+		if(strcasecmp($m->OSTypeId,$args['OSTypeId']) != 0) {
+			
+			$m->OSTypeId = $args['OSTypeId'];
+			
+			$guestOS = $this->vbox->getGuestOSType($args['OSTypeId']);
+			
+			$m->setCPUProperty('LongMode', ($guestOS->is64Bit ? 1 : 0));
+		}
+		
 		$m->CPUCount = $args['CPUCount'];
 		$m->memorySize = $args['memorySize'];
 		$m->firmwareType = $args['firmwareType'];
@@ -1817,6 +1826,8 @@ class vboxconnector {
 		if($m->snapshotFolder != $args['snapshotFolder']) $m->snapshotFolder = $args['snapshotFolder'];
 		$m->RTCUseUTC = ($args['RTCUseUTC'] ? 1 : 0);
 		$m->setCpuProperty('PAE', ($args['CpuProperties']['PAE'] ? 1 : 0));
+		$m->setCPUProperty('LongMode', (strpos($args['OSTypeId'],'_64') > - 1 ? 1 : 0));
+		
 		// IOAPIC
 		$m->BIOSSettings->IOAPICEnabled = ($args['BIOSSettings']['IOAPICEnabled'] ? 1 : 0);
 		$m->CPUExecutionCap = intval($args['CPUExecutionCap']);
@@ -2838,6 +2849,7 @@ class vboxconnector {
 				$network = $this->vbox->createNATNetwork($net['networkName']);
 				
 				foreach($props as $p) {
+					if($p == 'network' && $net[$p] == '') continue;
 					$network->$p = $net[$p];
 				}
 				
@@ -3375,7 +3387,7 @@ class vboxconnector {
 				'location' => $d->location,
 				'description' => $d->description,
 				'deviceType' => 'DVD',
-				'hostDrive' => true,
+				'hostDrive' => true
 			);
 			$d->releaseRemote();
 		}

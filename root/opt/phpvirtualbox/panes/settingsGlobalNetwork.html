@@ -3,7 +3,7 @@
 	General Network Preferences
 	Copyright (C) 2010-2013 Ian Moore (imoore76 at yahoo dot com)
 	
-	$Id: settingsGlobalNetwork.html 568 2013-10-17 02:49:34Z imoore76 $
+	$Id: settingsGlobalNetwork.html 582 2014-12-11 17:47:28Z imoore76 $
 
  -->
 <ul>
@@ -393,7 +393,7 @@ function vboxSettingsGlobalNATNetworksAddNet(net) {
 	$('<tr />').data({'NATNetwork':net}).hoverClass('vboxHover').addClass('vboxListItem').append(
 		$('<td />').append(
 				$('<input />').attr({'type':'checkbox'}).click(function(){
-					$(this).closest('tr').data('NATNetwork').enabled = this.checked;		
+					$(this).closest('tr').data('NATNetwork').enabled = (this.checked ? 1 : 0);		
 					$(this).closest('tr').data('NATNetwork')._modified = true;
 					}).prop('checked', net.enabled)
 				

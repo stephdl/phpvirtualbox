@@ -1,7 +1,7 @@
 /**
  * @fileOverview Common classes and objects used
  * @author Ian Moore (imoore76 at yahoo dot com)
- * @version $Id: phpvirtualbox.js 578 2013-11-25 19:42:53Z imoore76 $
+ * @version $Id: phpvirtualbox.js 582 2014-12-11 17:47:28Z imoore76 $
  * @copyright Copyright (C) 2010-2013 Ian Moore (imoore76 at yahoo dot com)
  */
 
@@ -167,6 +167,8 @@ var vboxHostDetailsSections = {
 		rows: function(d) {
 			
 			var netRows = [];
+			
+			d['networkInterfaces'].sort(strnatcasecmp);
 			
 			for(var i = 0; i < d['networkInterfaces'].length; i++) {		
 				
@@ -3158,7 +3160,7 @@ function vboxToolbarSingle(button) {
 	this.parentClass = vboxToolbarSmall;
 	this.parentClass();
 	this.buttons = [ button ];
-	this.disabledString = 'dis'
+	this.disabledString = 'disabled'
 	this._buttonElement = this.buttonElement; /* copy orig */
 	
 	/**
