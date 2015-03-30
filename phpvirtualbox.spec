@@ -14,7 +14,7 @@ BuildRoot: %{_tmppath}/%{name}-buildroot
 Prefix: %{_prefix}
 BuildArchitectures: noarch
 BuildRequires: e-smith-devtools
-Requires: e-smith-release >= 8.0
+Requires: e-smith-release >= 9.0
 AutoReqProv: no
 
 %description
