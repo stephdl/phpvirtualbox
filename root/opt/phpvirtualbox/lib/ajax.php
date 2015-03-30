@@ -5,7 +5,7 @@
  * 
  * @author Ian Moore (imoore76 at yahoo dot com)
  * @copyright Copyright (C) 2010-2013 Ian Moore (imoore76 at yahoo dot com)
- * @version $Id: ajax.php 575 2013-11-20 17:25:17Z imoore76 $
+ * @version $Id: ajax.php 585 2015-04-04 11:39:31Z imoore76 $
  * @package phpVirtualBox
  * @see vboxconnector
  * @see vboxAjaxRequest
@@ -83,11 +83,6 @@ try {
 			foreach($response['data']['responseData']['servers'] as $k => $v)
 				$response['data']['responseData']['servers'][$k] = array('name'=>$v['name']);
 						
-			// Are default settings being used?
-			if(@$settings->warnDefault) {
-				throw new Exception("No configuration found. Rename the file <b>config.php-example</b> in phpVirtualBox's folder to <b>config.php</b> and edit as needed.<p>For more detailed instructions, please see the installation wiki on phpVirtualBox's web site. <p><a href='http://sourceforge.net/p/phpvirtualbox/wiki/Home/' target=_blank>http://sourceforge.net/p/phpvirtualbox/wiki/Home/</a>.</p>",vboxconnector::PHPVB_ERRNO_FATAL);
-			}
-			
 			// Vbox version			
 			$vbox = new vboxconnector();
 			$response['data']['responseData']['version'] = $vbox->getVersion();
@@ -356,13 +351,13 @@ if($vbox && $vbox->errors) {
 		$response['messages'][] = htmlentities($e->getMessage()).' ' . htmlentities($details);
 		
 		$response['errors'][] = array(
-			'error'=>htmlentities($e->getMessage()),
+			'error'=> ($e->getCode() & vboxconnector::PHPVB_ERRNO_HTML ? $e->getMessage() : htmlentities($e->getMessage())),
 			'details'=>htmlentities($d),
 			'errno'=>$e->getCode(),
 			// Fatal errors halt all processing
-			'fatal'=>($e->getCode()==vboxconnector::PHPVB_ERRNO_FATAL),
+			'fatal'=>($e->getCode() & vboxconnector::PHPVB_ERRNO_FATAL),
 			// Connection errors display alternate servers options
-			'connection'=>($e->getCode()==vboxconnector::PHPVB_ERRNO_CONNECT)
+			'connection'=>($e->getCode() & vboxconnector::PHPVB_ERRNO_CONNECT)
 		);
 	}
 }

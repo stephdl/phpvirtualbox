@@ -1,4 +1,16 @@
 -------------------------------------
+	4.3-3  2015-04-04
+-------------------------------------
+Added 2d/3d video acceleration configuration options in VM
+settings
+
+Fixed guest OS icon for Linux 2.6 (32-bit)
+
+Added $eventListenerTimeout configuration option.
+
+Upgraded jQuery to 1.11.2 and jQuery-ui to 1.11.4
+
+-------------------------------------
 	4.3-2	2014-12-16
 -------------------------------------
 

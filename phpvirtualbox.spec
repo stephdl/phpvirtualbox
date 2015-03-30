@@ -1,7 +1,7 @@
 %define name phpvirtualbox
-%define version 4.3.2
+%define version 4.3.3
 %define release 1
-%define rpmver   4.3.2
+%define rpmver   4.3.3
 Summary: smserver rpm to install phpvirtualbox
 Name: %{name}
 Version: %{version}
@@ -21,6 +21,9 @@ AutoReqProv: no
 smserver rpm to install phpvirtualbox
 
 %changelog
+* Wed Apr 15 2015 stephane de labrusse <stephdl@de-labrusse.fr> 4.3.3-1
+- upstream upgrade 4.3-3
+
 * Fri Dec 19 2014 stephane de labrusse <stephdl@de-labrusse.fr> 4.3.2-1
 - upstream upgrade
 

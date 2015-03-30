@@ -5,7 +5,7 @@
  * 
  * @author Ian Moore (imoore76 at yahoo dot com)
  * @copyright Copyright (C) 2010-2013 Ian Moore (imoore76 at yahoo dot com)
- * @version $Id: config.php 581 2014-01-02 15:11:13Z imoore76 $
+ * @version $Id: config.php 585 2015-04-04 11:39:31Z imoore76 $
  * @package phpVirtualBox
  * @see config.php-example
  * 
@@ -14,7 +14,7 @@
 /*
  * This version of phpVirtualBox
  */
-define('PHPVBOX_VER', '4.3-2');
+define('PHPVBOX_VER', '4.3-3');
 
 class phpVBoxConfigClass {
 
@@ -134,6 +134,12 @@ class phpVBoxConfigClass {
 	 * @var array
 	 */
 	var $authConfig = array();
+	
+	/**
+	 * Event listener timeout in seconds.
+	 * @var integer
+	 */
+	var $eventListenerTimeout = 20;
 	
 	/**
 	 * Read user configuration, apply defaults, and do some sanity checking
