@@ -3,8 +3,8 @@
  * Simple RDP connection file generator
  *
  * @author Ian Moore (imoore76 at yahoo dot com)
- * @copyright Copyright (C) 2010-2013 Ian Moore (imoore76 at yahoo dot com)
- * @version $Id: rdp.php 531 2013-07-29 18:41:18Z imoore76 $
+ * @copyright Copyright (C) 2010-2015 Ian Moore (imoore76 at yahoo dot com)
+ * @version $Id: rdp.php 591 2015-04-11 22:40:47Z imoore76 $
  * @package phpVirtualBox
  *
  */

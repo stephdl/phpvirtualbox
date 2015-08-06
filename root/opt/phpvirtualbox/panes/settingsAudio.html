@@ -1,9 +1,9 @@
 <!--
 
 	Audio Settings
-	Copyright (C) 2010-2013 Ian Moore (imoore76 at yahoo dot com)
+	Copyright (C) 2010-2015 Ian Moore (imoore76 at yahoo dot com)
 	
-	$Id: settingsAudio.html 531 2013-07-29 18:41:18Z imoore76 $
+	$Id: settingsAudio.html 597 2015-04-20 11:41:28Z imoore76 $
 	
 -->
 <table class='vboxVertical'>
@@ -94,13 +94,13 @@ $('#vboxSettingsDialog').on('dataLoaded',function(){
 
 	var p = $(document.forms['frmVboxSettings'].vboxSettingsAudioController).closest('table'); 
 	if(!$('#vboxSettingsDialog').data('vboxFullEdit')) {
-		$(document.forms['frmVboxSettings'].vboxSettingsAudioEnabled).prop('checked',$('#vboxSettingsDialog').data('vboxMachineData').audioAdapter.enabled).trigger('syntheticClick');
+		$(document.forms['frmVboxSettings'].vboxSettingsAudioEnabled).prop('checked',$('#vboxSettingsDialog').data('vboxMachineData').audioAdapter.enabled).triggerHandler('click');
 		$(p).find('span').addClass('disabled');
 		$(p).find('input,select,textarea').prop('disabled',true);
 	} else {
 		$(p).find('span').removeClass('disabled');
 		$(p).find('input,select,textarea').prop('disabled',false);
-		$(document.forms['frmVboxSettings'].vboxSettingsAudioEnabled).prop('checked',$('#vboxSettingsDialog').data('vboxMachineData').audioAdapter.enabled).trigger('syntheticClick');		
+		$(document.forms['frmVboxSettings'].vboxSettingsAudioEnabled).prop('checked',$('#vboxSettingsDialog').data('vboxMachineData').audioAdapter.enabled).triggerHandler('click');		
 	}
 });
 	
@@ -109,7 +109,7 @@ $('#vboxSettingsDialog').on('save',function(){
 
 	$('#vboxSettingsDialog').data('vboxMachineData').audioAdapter.audioDriver = document.forms['frmVboxSettings'].vboxSettingsAudioDriver.value;
 	$('#vboxSettingsDialog').data('vboxMachineData').audioAdapter.audioController = document.forms['frmVboxSettings'].vboxSettingsAudioController.value;
-	$('#vboxSettingsDialog').data('vboxMachineData').audioAdapter.enabled = (document.forms['frmVboxSettings'].vboxSettingsAudioEnabled.checked ? 1 : 0);
+	$('#vboxSettingsDialog').data('vboxMachineData').audioAdapter.enabled = document.forms['frmVboxSettings'].vboxSettingsAudioEnabled.checked;
 		
 });
 

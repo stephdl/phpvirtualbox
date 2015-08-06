@@ -1,9 +1,9 @@
 <!-- 
 
 	VM Snapshots Pane
-	Copyright (C) 2010-2013 Ian Moore (imoore76 at yahoo dot com)
+	Copyright (C) 2010-2015 Ian Moore (imoore76 at yahoo dot com)
 	
-	$Id: tabVMSnapshots.html 572 2013-10-17 21:12:51Z imoore76 $
+	$Id: tabVMSnapshots.html 595 2015-04-17 09:50:36Z imoore76 $
 
  -->
 <div id='vboxTabVMSnapshots' class='vboxInvisible' style='display: none; width:100%;'>
@@ -149,7 +149,7 @@ var vboxSnapshotButtons = [
 								// callback passed to click()? else Refresh vm list
 								if(typeof callback == 'function') { callback(pres); }
 	
-							},'progress_snapshot_create_90px.png',trans('Take a snapshot of the current virtual machine state','VBoxSnapshotsWgt'),
+							},'progress_snapshot_create_90px.png', trans('Take a snapshot of the current virtual machine state','VBoxSnapshotsWgt'),
 								vm.name);
 							
 						} else {
@@ -190,7 +190,7 @@ var vboxSnapshotButtons = [
   			};
   			buttons[trans('Cancel','QIMessageBox')] = function() { $(this).dialog('close'); };
   			
-  			$('#vboxSnapshotNew').dialog({'closeOnEscape':false,'width':'400px','height':'auto','buttons':buttons,'modal':true,'autoOpen':true,'dialogClass':'vboxDialogContent','title':'<img src="images/vbox/take_snapshot_16px.png" class="vboxDialogTitleIcon" height="16" width="16" /> ' + trans('Take Snapshot of Virtual Machine','VBoxTakeSnapshotDlg')});
+  			$('#vboxSnapshotNew').dialog({'closeOnEscape':false,'width':'400px','height':'auto','buttons':buttons,'modal':true,'autoOpen':true,'dialogClass':'vboxDialogContent','title':'<img src="images/vbox/snapshot_take_16px.png" class="vboxDialogTitleIcon" height="16" width="16" /> ' + trans('Take Snapshot of Virtual Machine','VBoxTakeSnapshotDlg')});
   			
   	  	}
   	},
@@ -334,7 +334,9 @@ var vboxSnapshotButtons = [
 				$('#vboxSnapshotDetailsDesc').val(d.responseData.description);
 				
 				if(d.responseData.online) {
-					$('#vboxSnapshotSS').html('<a href="screen.php?vm='+vm.id+'&snapshot='+d.responseData.id+'&full=1" target="_blank"><img src="screen.php?vm='+vm.id+'&snapshot='+d.responseData.id+'" /></a>').show();
+					$('#vboxSnapshotSS').html('<a href="'+ vboxEndpointConfig.screen +'?vm='+vm.id+
+							'&snapshot='+d.responseData.id+'&full=1" target="_blank"><img src="'+vboxEndpointConfig.screen+'?vm='+
+									vm.id+'&snapshot='+d.responseData.id+'" /></a>').show();
 				} else {
 					$('#vboxSnapshotSS').empty().hide();
 				}
@@ -527,6 +529,7 @@ $('#vboxPane').on('vmSelectionListChanged',function(){
 			/////////////////////////
 			case 'OnSnapshotTaken':
 			case 'OnSnapshotDeleted':
+			case 'OnSnapshotRestored':
 			case 'OnSnapshotChanged':
 
 				// Is this vm selected

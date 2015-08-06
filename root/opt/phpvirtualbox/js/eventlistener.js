@@ -2,8 +2,8 @@
  * 
  * @fileOverview Event listener singleton. Provides vboxEventListener
  * @author Ian Moore (imoore76 at yahoo dot com)
- * @version $Id: eventlistener.js 585 2015-04-04 11:39:31Z imoore76 $
- * @copyright Copyright (C) 2010-2013 Ian Moore (imoore76 at yahoo dot com)
+ * @version $Id: eventlistener.js 596 2015-04-19 11:50:53Z imoore76 $
+ * @copyright Copyright (C) 2010-2015 Ian Moore (imoore76 at yahoo dot com)
  */
 
 /**
@@ -145,7 +145,7 @@ var vboxEventListener = {
 			vboxEventListener._subscribeList = [];
 			
 			var vmEvents = $.Deferred();
-			$.when(vboxAjaxRequest('machineSubscribeEvents', {'vms':vms,'_persist':vboxEventListener._persist})).done(function(d){
+			$.when(vboxAjaxRequest('machineSubscribeEvents', {'vms':vms},{'persist':vboxEventListener._persist})).done(function(d){
 				// Always set persistent request data
 				vboxEventListener._persist = d.persist;
 			}).always(function(){
@@ -171,7 +171,7 @@ var vboxEventListener = {
 		
 		// Unsubscribe from events. Returns a deferred object
 		return vboxEventListener._requestQueue.addReq(function(){
-			return vboxAjaxRequest('unsubscribeEvents', {'_persist':vboxEventListener._persist});
+			return vboxAjaxRequest('unsubscribeEvents', {}, {'persist':vboxEventListener._persist});
 		});
 		
 	},
@@ -187,7 +187,7 @@ var vboxEventListener = {
 		// Add to queue
 		return vboxEventListener._requestQueue.addReq(function(){
 			
-			return $.when(new Date().getTime(), vboxAjaxRequest('getEvents',{'_persist':vboxEventListener._persist})).done(function(lastTime,d) {
+			return $.when(new Date().getTime(), vboxAjaxRequest('getEvents',{}, {'persist':vboxEventListener._persist})).done(function(lastTime,d) {
 				
 				// Don't do anything if this is not running
 				if(!vboxEventListener._running) return;

@@ -1,8 +1,8 @@
 <!-- 
 	Serial port settings
-	Copyright (C) 2010-2013 Ian Moore (imoore76 at yahoo dot com)
+	Copyright (C) 2010-2015 Ian Moore (imoore76 at yahoo dot com)
 	
-	$Id: settingsSerialPorts.html 537 2013-08-05 19:24:01Z imoore76 $
+	$Id: settingsSerialPorts.html 597 2015-04-20 11:41:28Z imoore76 $
  -->
 <div id='vboxSettingsTabSerialPort' style='display: none'>
 <table class='vboxVertical'>
@@ -177,7 +177,7 @@ $('#vboxSettingsDialog').on('dataLoaded',function(){
 		$(document.forms['frmVboxSettings'].elements['vboxSettingsPortMode'+a]).change();
 
 		// Create pipe 
-		$(document.forms['frmVboxSettings'].elements['vboxSettingsSPortCreatePipe'+a]).prop('checked',($('#vboxSettingsDialog').data('vboxMachineData').serialPorts[i].server ? true : false)).trigger('syntheticClick');
+		$(document.forms['frmVboxSettings'].elements['vboxSettingsSPortCreatePipe'+a]).prop('checked',($('#vboxSettingsDialog').data('vboxMachineData').serialPorts[i].server ? true : false)).triggerHandler('click');
 		
 		// Path
 		$(document.forms['frmVboxSettings'].elements['vboxSettingsSPortPath'+a]).val($('#vboxSettingsDialog').data('vboxMachineData').serialPorts[i].path);
@@ -188,13 +188,13 @@ $('#vboxSettingsDialog').on('dataLoaded',function(){
 	}
 
 	if(!$('#vboxSettingsDialog').data('vboxFullEdit')) {
-		vboxSettingsSPortContainer.find('input.vboxEnablerCheckbox').trigger('syntheticClick');
+		vboxSettingsSPortContainer.find('input.vboxEnablerCheckbox').triggerHandler('click');
 		vboxSettingsSPortContainer.children(':not(ul)').find('span').addClass('disabled');
 		vboxSettingsSPortContainer.find('input,select,textarea').prop('disabled',true);
 	} else {
 		vboxSettingsSPortContainer.find('span').removeClass('disabled');
 		vboxSettingsSPortContainer.find('input,select,textarea').prop('disabled',false);
-		vboxSettingsSPortContainer.find('input.vboxEnablerCheckbox').trigger('syntheticClick');
+		vboxSettingsSPortContainer.find('input.vboxEnablerCheckbox').triggerHandler('click');
 	}
 	
 });
@@ -215,13 +215,13 @@ $('#vboxSettingsDialog').on('save',function(){
 		$('#vboxSettingsDialog').data('vboxMachineData').serialPorts[i].hostMode = $(document.forms['frmVboxSettings'].elements['vboxSettingsPortMode'+a]).val(); 
 
 		// Create pipe 
-		$('#vboxSettingsDialog').data('vboxMachineData').serialPorts[i].server = (document.forms['frmVboxSettings'].elements['vboxSettingsSPortCreatePipe'+a].checked ? 1 : 0);
+		$('#vboxSettingsDialog').data('vboxMachineData').serialPorts[i].server = document.forms['frmVboxSettings'].elements['vboxSettingsSPortCreatePipe'+a].checked;
 		
 		// Path
 		$('#vboxSettingsDialog').data('vboxMachineData').serialPorts[i].path = $(document.forms['frmVboxSettings'].elements['vboxSettingsSPortPath'+a]).val();
 		
 		// Enabled port
-		$('#vboxSettingsDialog').data('vboxMachineData').serialPorts[i].enabled = (document.forms['frmVboxSettings'].elements['vboxSettingsSPortEnabled'+a].checked ? 1 : 0);
+		$('#vboxSettingsDialog').data('vboxMachineData').serialPorts[i].enabled = document.forms['frmVboxSettings'].elements['vboxSettingsSPortEnabled'+a].checked;
 
 
 	}

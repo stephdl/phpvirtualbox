@@ -1,5 +1,32 @@
 -------------------------------------
-	4.3-3  2015-04-04
+    5.0-1   2015-08-05
+-------------------------------------
+Fix paths in recovery.php-disabled
+
+Fix Content-type header in api.php
+
+Fix add medium button context menu in VM settings
+
+Fix RDP link
+
+Fix bug when changing password
+
+Removed unused OnAdditionsStateChanged event
+
+Change in the way Windows drive list is obtained
+
+Fixed errors manipulating groups when $phpVboxGroups is set
+
+-------------------------------------
+    5.0-0	2015-07-18
+-------------------------------------
+VirtualBox 5.0 compatibility.
+
+Progress operations are now listed in order of creation from top
+top bottom.
+ 
+-------------------------------------
+	4.3-3	2015-04-04
 -------------------------------------
 Added 2d/3d video acceleration configuration options in VM
 settings

@@ -1,9 +1,9 @@
 <!--
 
 	Shared Folders
-	Copyright (C) 2010-2013 Ian Moore (imoore76 at yahoo dot com)
+	Copyright (C) 2010-2015 Ian Moore (imoore76 at yahoo dot com)
 	
-	$Id: settingsSharedFolders.html 569 2013-10-17 16:57:52Z imoore76 $
+	$Id: settingsSharedFolders.html 595 2015-04-17 09:50:36Z imoore76 $
 	
 -->
 <table style='width: 100%' id='vboxSettingsSharedFoldersTable'>
@@ -353,7 +353,7 @@ $('#vboxSettingsDialog').on('save',function(){
 	$('#vboxSettingsSharedFoldersList').find('tr').each(function(){
 		// Skip headers and such
 		if($(this).data('name')) {
-			folders[folders.length] = {'name':$(this).data('name'),'hostPath':$(this).data('hostPath'),'autoMount':($(this).data('autoMount') ? 1 : 0),'writable':($(this).data('writable') ? 1 : 0),'type':$(this).data('type')};
+			folders[folders.length] = {'name':$(this).data('name'),'hostPath':$(this).data('hostPath'),'autoMount':($(this).data('autoMount') ? true : false),'writable':($(this).data('writable') ? true : false),'type':$(this).data('type')};
 		}
 	});
 	$('#vboxSettingsDialog').data('vboxMachineData').sharedFolders = folders;

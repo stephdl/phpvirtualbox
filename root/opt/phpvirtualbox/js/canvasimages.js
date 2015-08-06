@@ -1,8 +1,8 @@
 /**
  * @fileOverview HTML5 canvas image functions
  * @author Ian Moore (imoore76 at yahoo dot com)
- * @version $Id: canvasimages.js 569 2013-10-17 16:57:52Z imoore76 $
- * @copyright Copyright (C) 2010-2013 Ian Moore (imoore76 at yahoo dot com)
+ * @version $Id: canvasimages.js 591 2015-04-11 22:40:47Z imoore76 $
+ * @copyright Copyright (C) 2010-2015 Ian Moore (imoore76 at yahoo dot com)
  */
 
 /**

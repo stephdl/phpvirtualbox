@@ -1,9 +1,9 @@
 <!-- 
 
 	VM Details Pane
-	Copyright (C) 2010-2013 Ian Moore (imoore76 at yahoo dot com)
+	Copyright (C) 2010-2015 Ian Moore (imoore76 at yahoo dot com)
 	
-	$Id: tabVMDetails.html 571 2013-10-17 19:51:10Z imoore76 $
+	$Id: tabVMDetails.html 596 2015-04-19 11:50:53Z imoore76 $
 
  -->
 <div id='vboxTabVMDetails' style='height: 100%; width: 100%; display: none;' class='vboxInvisible'>
@@ -374,7 +374,11 @@ function __vboxDetailAddRows(data, rows, table) {
 		if(rows[i].rawRow) {
 			$(table).append(rowData);
 		} else {
-			$(table).append(__vboxDetailRow(rows[i].title, rowData, 'vboxDetailName' + (rows[i].indented ? ' vboxDetailNameIndent' : ''), rows[i].html));
+			$(table).append(__vboxDetailRow(
+			        rows[i].title,
+			        rowData, 
+			        'vboxDetailName ' + (rows[i].indented ? ' vboxDetailNameIndent' : '') + ' ' + (rows[i].cssClass ? rows[i].cssClass : ''),
+			        rows[i].html));
 		}
 		
 	}

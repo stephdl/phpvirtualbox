@@ -1,5 +1,5 @@
 
-phpVirtualBox is Copyright (C) 2011 Ian Moore (imoore76 at yahoo dot com)
+phpVirtualBox is Copyright (C) 2015 Ian Moore (imoore76 at yahoo dot com)
 
 FREE, WITHOUT WARRANTY:
 

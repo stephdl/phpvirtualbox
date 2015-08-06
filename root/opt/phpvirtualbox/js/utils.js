@@ -1,8 +1,8 @@
 /**
  * @fileOverview Common utilities
  * @author Ian Moore (imoore76 at yahoo dot com)
- * @version $Id: utils.js 577 2013-11-25 19:33:09Z imoore76 $
- * @copyright Copyright (C) 2010-2013 Ian Moore (imoore76 at yahoo dot com)
+ * @version $Id: utils.js 599 2015-07-27 10:40:37Z imoore76 $
+ * @copyright Copyright (C) 2010-2015 Ian Moore (imoore76 at yahoo dot com)
  * 		- unless otherwise noted in fuction
  */
 
@@ -66,7 +66,7 @@ function vboxTraverse(tree,prop,val,all,children) {
  * @param {Object} params - params to pass to AJAX call
  * @return {Object} deferred promise
  */
-function vboxAjaxRequest(fn,params) {
+function vboxAjaxRequest(fn,params,config) {
 	
 	// Promise for data
 	var def = $.Deferred();
@@ -75,7 +75,13 @@ function vboxAjaxRequest(fn,params) {
 	if($('#vboxPane').data('vboxFatalError'))
 		return def.reject();
 	
-	$.when($.post('lib/ajax.php', $.extend(true,{},(params ? params : {}),{'fn':fn}),undefined,"json")
+	var data = {
+        'fn': fn,
+        'params': params ? params : null,
+        'persist': config && config.persist ? config.persist : null
+	};
+
+	$.when($.post(vboxEndpointConfig.api, JSON.stringify(data), undefined,"json")
 	
 		// Run on error
 		.fail(function(d,etext,xlr,d2) {
@@ -239,10 +245,12 @@ function vboxGuestOSTypeIcon(osTypeId) {
 		case "Windows2008_64":  strIcon = "os_win2k8_64.png"; break;
 		case "Windows7":        strIcon = "os_win7.png"; break;
 		case "Windows7_64":     strIcon = "os_win7_64.png"; break;
-		case "Windows81":
 		case "Windows8":        strIcon = "os_win8.png"; break;
-		case "Windows81_64":
 		case "Windows8_64":     strIcon = "os_win8_64.png"; break;
+		case "Windows81":       strIcon = "os_win81.png"; break;
+		case "Windows81_64":     strIcon = "os_win81_64.png"; break;
+		case "Windows10":       strIcon = "os_win10.png"; break
+		case "Windows10_64":       strIcon = "os_win10.png"; break
 		case "WindowsNT_64":
 		case "WindowsNT":       strIcon = "os_win_other.png"; break;
 		case "Windows2012_64":	strIcon = "os_win2k12_64.png"; break;
@@ -290,7 +298,9 @@ function vboxGuestOSTypeIcon(osTypeId) {
 		case "OpenSolaris":     strIcon = "os_oraclesolaris.png"; break;
 		case "OpenSolaris_64":  strIcon = "os_oraclesolaris_64.png"; break;
 		case "QNX":             strIcon = "os_qnx.png"; break;
+		case "MacOS106":
 		case 'MacOS':			strIcon = "os_macosx.png"; break;
+		case "MacOS106_64":
 		case 'MacOS_64':			strIcon = "os_macosx_64.png"; break;
 		case 'Oracle':			strIcon = "os_oracle.png"; break;
 		case 'Oracle_64':			strIcon = "os_oracle_64.png"; break;
@@ -317,26 +327,21 @@ function vboxMachineStateIcon(state)
     {
         case "PoweredOff": strIcon = "state_powered_off_16px.png"; break;
         case "Saved": strIcon = "state_saved_16px.png"; break;
-        case "Teleported": strIcon = strNoIcon; break;
+        case "Saving": strIcon = "state_saving_16px.png"; break;
+        case "Snapshotting": strIcon = "snapshot_offline_16px.png"; break;
         case "LiveSnapshotting": strIcon = "snapshot_online_16px.png"; break;
         case "Aborted": strIcon = "state_aborted_16px.png"; break;
         case "Running": strIcon = "state_running_16px.png"; break;
         case "Paused": strIcon = "state_paused_16px.png"; break;
         case "Stuck": strIcon = "state_stuck_16px.png"; break;
-        case "Teleporting": strIcon = strNoIcon; break;
-        case "Starting": strIcon = strNoIcon; break;
-        case "Stopping": strIcon = strNoIcon; break;
         case "Saving": strIcon = "state_discarding_16px.png"; break;
         case "Restoring": strIcon = "vm_settings_16px.png"; break;
-        case "TeleportingPausedVM": strIcon = strNoIcon; break;
-        case "TeleportingIn": strIcon = strNoIcon; break;
         case "RestoringSnapshot": strIcon = "discard_cur_state_16px.png"; break;
         case "DeletingSnapshot": strIcon = "state_discarding_16px.png"; break;
-        case "SettingUp": strIcon = strNoIcon; break;
         case "Hosting" : strIcon = "vm_settings_16px.png"; break;
         case "Inaccessible": strIcon = "state_aborted_16px.png"; break;
         default:
-            break;
+            strIcon = strNoIcon;
     }
     
     return strIcon;
@@ -372,7 +377,7 @@ function vboxFileBrowser(root,fn,foldersonly,title,icon,strictFiles) {
 
 	var d1 = $('<div />').attr({'id':'vboxBrowseFolder','class':'vboxDialogContent','style':'display:none'});
 	
-	$('<div />').attr({'id':'vboxBrowseFolderList'}).fileTree({ 'root': (root ? root : '/'),'dirsOnly':(foldersonly ? 1 : 0),'loadMessage':trans('Loading ...','UIVMDesktop'),'scrollTo':'#vboxBrowseFolder'},function(f){
+	$('<div />').attr({'id':'vboxBrowseFolderList'}).fileTree({ 'root': (root ? root : '/'),'dirsOnly':foldersonly,'loadMessage':trans('Loading ...','UIVMDesktop'),'scrollTo':'#vboxBrowseFolder'},function(f){
     	buttons[trans('OK','QIMessageBox')](f);
     }).appendTo(d1);
 	
@@ -439,6 +444,8 @@ function vboxConvertMbytes(str) {
  */
 function vboxAlert(e,xtraOpts) {
 
+    var acknowledged = $.Deferred();
+    
 	var msg = '';
 	
 	if(typeof e == 'object') msg = e.error;
@@ -474,7 +481,10 @@ function vboxAlert(e,xtraOpts) {
 	
 	
 	var buttons = { };
-	buttons[trans('OK','QIMessageBox')] = function(f) {$(this).trigger('close').empty().remove();};
+	buttons[trans('OK','QIMessageBox')] = function(f) {
+	    $(this).trigger('close').empty().remove();
+	    acknowledged.resolve();
+	};
 
 	var dialogOpts = {'closeOnEscape':false,'width':600,'height':'auto','buttons':buttons,'modal':true,'autoOpen':true,'dialogClass':'vboxDialogContent','title':'<img src="images/vbox/OSE/about_16px.png" class="vboxDialogTitleIcon" /> phpVirtualBox'};
 
@@ -486,7 +496,7 @@ function vboxAlert(e,xtraOpts) {
 
 	$(div).dialog(dialogOpts);
 	
-    	
+    return acknowledged;
 
 }
 /**
@@ -616,12 +626,12 @@ function vboxInitDisplay(root,context) {
 	 * 
 	 */
 	
-	$(root).find('input.vboxEnablerCheckbox').on('click syntheticClick', function(e) {
+	$(root).find('input.vboxEnablerCheckbox').on('click', function(e) {
 	
 			var roottbl = $(this).closest('table');
 			
 			$(roottbl).find('input:not(.vboxEnablerCheckbox)').prop('disabled',!this.checked);
-			$(roottbl).find('select').prop('disabled',!this.checked);
+			$(roottbl).find('select:not(.vboxEnablerIgnore)').prop('disabled',!this.checked);
 			(this.checked ? $(roottbl).find('th').removeClass('vboxDisabled') : $(roottbl).find('th:not(.vboxEnablerIgnore)').addClass('vboxDisabled'));
 			(this.checked ? $(roottbl).find('.vboxEnablerListen').removeClass('vboxDisabled') : $(roottbl).find('.vboxEnablerListen').addClass('vboxDisabled'));
 	
@@ -692,7 +702,7 @@ function vboxDivOverflowHidden(p) {
  * @see vboxconnector::progressGet()
  */
 function vboxProgress(prequest,callback,icon,title,target,blocking) {
-	
+
 	// Fix title
 	title = title.replace('\.+$','');
 	
@@ -700,24 +710,24 @@ function vboxProgress(prequest,callback,icon,title,target,blocking) {
 	target = $('<div />').text(target).html();
 	
 	// Sanitize progress request data
+	var persist = prequest.persist;
 	prequest = {
 		'progress' : prequest.progress,
-		'catcherrs' : prequest.catcherrs,
-		'_persist' : prequest.persist
+		'catcherrs' : prequest.catcherrs
 	};
-	
+
 	// Blocking creates a dialog
 	if(!blocking) {
 	
 		vboxProgressCreateListElement(prequest,icon,title,target,callback);
 		
-		$.when(prequest, vboxAjaxRequest('progressGet',prequest)).done(vboxProgressUpdate);
+		$.when(prequest, vboxAjaxRequest('progressGet',prequest,{'persist':persist})).done(vboxProgressUpdate);
 
 	} else {
 		
 		vboxProgressCreateDialog(prequest,icon,title,target,callback);
 				
-		$.when(prequest, vboxAjaxRequest('progressGet',prequest)).done(vboxProgressUpdateModal);
+		$.when(prequest, vboxAjaxRequest('progressGet',prequest,{'persist':persist})).done(vboxProgressUpdateModal);
 	}
 	
 	
@@ -766,7 +776,7 @@ function vboxProgressCreateDialog(prequest,icon,title,target,callback) {
 	$(tbl).append($(tr).append(td)).appendTo(div);
 	
 	// Append placeholder for list element
-	$('#vboxProgressOps').append($('<div />').addClass('vboxProgressOpElement').css({'display':'none'}).attr({'id':'vboxProgressPlaceholder'+pid}));
+	$('#vboxProgressOps').prepend($('<div />').addClass('vboxProgressOpElement').css({'display':'none'}).attr({'id':'vboxProgressPlaceholder'+pid}));
 	
 	$(div).data({
 		'vboxCallback':callback,
@@ -833,7 +843,7 @@ function vboxProgressCreateListElement(prequest,icon,title,target,callback) {
 	if($('#vboxProgressPlaceholder'+pid)[0]) {
 		$('#vboxProgressPlaceholder'+pid).replaceWith(div);
 	} else {
-		$(div).insertAfter($('#vboxResizeBarProgressEW'));		
+	    $('#vboxProgressOps').prepend(div);		
 	}
 
 	
@@ -871,7 +881,7 @@ function vboxProgressUpdate(prequest,d,modal) {
 	
 	// Shorthand
 	var pid = prequest.progress;
-	
+
 	// check for completed progress
 	if(!d || !d.responseData || !d.responseData['progress'] || !d.responseData['info'] || d.responseData['info']['completed'] || d.responseData['info']['canceled']) {
 		
@@ -942,8 +952,8 @@ function vboxProgressUpdate(prequest,d,modal) {
 	// Get request
 	var def = $.Deferred();
 	def.done(function(){
-		
-		$.when(prequest, vboxAjaxRequest('progressGet', prequest))
+
+		$.when(prequest, vboxAjaxRequest('progressGet', prequest, {'persist': d.persist}))
 			.done((modal ? vboxProgressUpdateModal : vboxProgressUpdate));
 		
 	});

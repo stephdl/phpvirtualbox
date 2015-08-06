@@ -1,9 +1,9 @@
 <!-- 
 
 	Top (main) phpVirtualBox tool bar
-	Copyright (C) 2010-2013 Ian Moore (imoore76 at yahoo dot com)
+	Copyright (C) 2010-2015 Ian Moore (imoore76 at yahoo dot com)
 	
-	$Id: toolbar.html 569 2013-10-17 16:57:52Z imoore76 $
+	$Id: toolbar.html 599 2015-07-27 10:40:37Z imoore76 $
 
 -->
 <script type='text/javascript'>
@@ -354,7 +354,7 @@ function vboxUpdateSettingsMenu(vm) {
 					jQuery.inArray('floppy',vboxStorage[vm['storageControllers'][a].bus].driveTypes) == -1)
 				continue;
 			
-			var icon = vboxStorage.getBusIcon(vm['storageControllers'][a].bus);
+			var icon = vboxStorage.getBusIconName(vm['storageControllers'][a].bus);
 			
 			for(var b = 0; b < vm['storageControllers'][a]['mediumAttachments'].length; b++) {
 				

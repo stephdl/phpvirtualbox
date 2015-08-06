@@ -1,8 +1,8 @@
 <!--
 	Parallel port settings
-	Copyright (C) 2010-2013 Ian Moore (imoore76 at yahoo dot com)
+	Copyright (C) 2010-2015 Ian Moore (imoore76 at yahoo dot com)
 	
-	$Id: settingsParallelPorts.html 537 2013-08-05 19:24:01Z imoore76 $
+	$Id: settingsParallelPorts.html 597 2015-04-20 11:41:28Z imoore76 $
 -->
 <div id='vboxSettingsTabParallelPort'>
 	<table class='vboxVertical'>
@@ -147,18 +147,18 @@ if($('#vboxPane').data('vboxConfig').enableLPTConfig) {
 			$(document.forms['frmVboxSettings'].elements['vboxSettingsPPortPath'+a]).val($('#vboxSettingsDialog').data('vboxMachineData').parallelPorts[i].path);
 			
 			// Enabled port
-			$(document.forms['frmVboxSettings'].elements['vboxSettingsPPortEnabled'+a]).prop('checked',$('#vboxSettingsDialog').data('vboxMachineData').parallelPorts[i].enabled).trigger('syntheticClick'); 
+			$(document.forms['frmVboxSettings'].elements['vboxSettingsPPortEnabled'+a]).prop('checked',$('#vboxSettingsDialog').data('vboxMachineData').parallelPorts[i].enabled).triggerHandler('click'); 
 		
 		}
 
 		if(!$('#vboxSettingsDialog').data('vboxFullEdit')) {
-			vboxSettingsPPortContainer.find('input.vboxEnablerCheckbox').trigger('syntheticClick');
+			vboxSettingsPPortContainer.find('input.vboxEnablerCheckbox').triggerHandler('click');
 			vboxSettingsPPortContainer.children(':not(ul)').find('span').addClass('disabled');
 			vboxSettingsPPortContainer.find('input,select,textarea').prop('disabled',true);
 		} else {
 			vboxSettingsPPortContainer.find('span').removeClass('disabled');
 			vboxSettingsPPortContainer.find('input,select,textarea').prop('disabled',false);
-			vboxSettingsPPortContainer.find('input.vboxEnablerCheckbox').trigger('syntheticClick');
+			vboxSettingsPPortContainer.find('input.vboxEnablerCheckbox').triggerHandler('click');
 		}
 	});
 }
@@ -181,7 +181,7 @@ $('#vboxSettingsDialog').on('save',function(){
 		$('#vboxSettingsDialog').data('vboxMachineData').parallelPorts[i].path = $(document.forms['frmVboxSettings'].elements['vboxSettingsPPortPath'+a]).val();
 		
 		// Enabled port
-		$('#vboxSettingsDialog').data('vboxMachineData').parallelPorts[i].enabled = (document.forms['frmVboxSettings'].elements['vboxSettingsPPortEnabled'+a].checked ? 1 : 0);
+		$('#vboxSettingsDialog').data('vboxMachineData').parallelPorts[i].enabled = document.forms['frmVboxSettings'].elements['vboxSettingsPPortEnabled'+a].checked;
 
 
 	}

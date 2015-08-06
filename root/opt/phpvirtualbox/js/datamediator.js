@@ -1,8 +1,8 @@
 /**
  * @fileOverview Deferred data loader / cacher singleton. Provides vboxDataMediator
  * @author Ian Moore (imoore76 at yahoo dot com)
- * @version $Id: datamediator.js 543 2013-08-08 15:46:34Z imoore76 $
- * @copyright Copyright (C) 2010-2013 Ian Moore (imoore76 at yahoo dot com)
+ * @version $Id: datamediator.js 591 2015-04-11 22:40:47Z imoore76 $
+ * @copyright Copyright (C) 2010-2015 Ian Moore (imoore76 at yahoo dot com)
  */
 
 /**
@@ -306,7 +306,7 @@ $(document).ready(function(){
 
 	
 	// Snapshot changed
-	}).on('vboxOnSnapshotTaken vboxOnSnapshotDeleted vboxOnSnapshotChanged',function(e,eventData) {
+	}).on('vboxOnSnapshotTaken vboxOnSnapshotDeleted vboxOnSnapshotChanged vboxOnSnapshotRestored',function(e,eventData) {
 		
 		if(vboxVMDataMediator.vmData[eventData.machineId]) {
 			
